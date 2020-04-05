@@ -1,11 +1,11 @@
 grammar Select;
 
 
-select : 'SELECT' columns 'FROM' collection where? skip? limit? ;
+select : 'SELECT' columns 'FROM' collection where? (skip? limit? | limit? skip?) ;
 columns : ALL_COLUMNS | names += columnName (',' names += columnName)* ;
 columnName : IDENTIFIER ;
 collection : IDENTIFIER ;
-where : 'WHERE' condition ('AND' condition)? ;
+where : 'WHERE' condition ('AND' condition)* ;
 condition :
     eqCondition |
     gtCondition |
