@@ -7,12 +7,13 @@ internal class SelectVisitor : SelectBaseVisitor<Unit>() {
     lateinit var collector : SelectOperationCollector
 
     override fun visitSelect(ctx: SelectParser.SelectContext) {
-        collector = SelectOperationCollector(ctx.collection().IDENTIFIER().text)
+        collector = SelectOperationCollector(ctx.collection().NAME().text)
         super.visitSelect(ctx)
     }
 
     override fun visitColumnName(ctx: SelectParser.ColumnNameContext) {
-        collector.columns.add(ctx.IDENTIFIER().text)
+        val name = listOfNotNull(ctx.FIELD_NAME(), ctx.NAME()).single().text
+        collector.columns.add(name)
     }
 
     override fun visitEqCondition(ctx: SelectParser.EqConditionContext) {

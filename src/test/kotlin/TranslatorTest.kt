@@ -128,4 +128,51 @@ internal class TranslatorTest {
         )
     }
 
+    @Test
+    fun lowerCaseSelectTest() {
+        checkResult(
+            "select * from sales",
+            "db.sales.find({})"
+        )
+    }
+
+    @Test
+    fun capitalLettersSelectTest() {
+        checkResult(
+            "Select * From sales",
+            "db.sales.find({})"
+        )
+    }
+
+    @Test
+    fun alternatingCaseSelectTest() {
+        checkResult(
+            "SeLeCt name FrOm pets WhErE age < 10",
+            "db.pets.find({age: {\$lt: 10}}, {name: 1})"
+        )
+    }
+
+    @Test
+    fun digitsInCollectionNameTest() {
+        checkResult(
+            "SELECT * FROM col1ection23",
+            "db.col1ection23.find({})"
+        )
+    }
+
+    @Test
+    fun digitsInFieldNameTest() {
+        checkResult(
+            "SELECT tota1 FROM sales",
+            "db.sales.find({}, {tota1: 1})"
+        )
+    }
+
+    @Test
+    fun startsWithUnderscoreFieldNameTest() {
+        checkResult(
+            "SELECT _total FROM sales",
+            "db.sales.find({}, {_total: 1})"
+        )
+    }
 }
