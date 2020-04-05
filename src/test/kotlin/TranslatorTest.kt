@@ -2,6 +2,7 @@ package com.test.translator
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class TranslatorTest {
 
@@ -174,5 +175,25 @@ internal class TranslatorTest {
             "SELECT _total FROM sales",
             "db.sales.find({}, {_total: 1})"
         )
+    }
+
+    @Test
+    fun typoInSelectTest() {
+        assertThrows<ParseException> { translateSelect("SELCT * FROM sales") }
+    }
+
+    @Test
+    fun redundantCommaTest() {
+        assertThrows<ParseException> { translateSelect("SELECT name, age, FROM pets") }
+    }
+
+    @Test
+    fun incorrectCollectionNameTest() {
+        assertThrows<ParseException> { translateSelect("SELECT * FROM #collection") }
+    }
+
+    @Test
+    fun incorrectFieldNameTest() {
+        assertThrows<ParseException> { translateSelect("SELECT @name FROM collection") }
     }
 }
