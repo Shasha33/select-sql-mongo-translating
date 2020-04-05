@@ -1,5 +1,7 @@
 package com.test.translator
 
+import com.test.translator.ParseException
+import com.test.translator.translateSelect
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -179,21 +181,37 @@ internal class TranslatorTest {
 
     @Test
     fun typoInSelectTest() {
-        assertThrows<ParseException> { translateSelect("SELCT * FROM sales") }
+        assertThrows<ParseException> {
+            translateSelect(
+                "SELCT * FROM sales"
+            )
+        }
     }
 
     @Test
     fun redundantCommaTest() {
-        assertThrows<ParseException> { translateSelect("SELECT name, age, FROM pets") }
+        assertThrows<ParseException> {
+            translateSelect(
+                "SELECT name, age, FROM pets"
+            )
+        }
     }
 
     @Test
     fun incorrectCollectionNameTest() {
-        assertThrows<ParseException> { translateSelect("SELECT * FROM #collection") }
+        assertThrows<ParseException> {
+            translateSelect(
+                "SELECT * FROM #collection"
+            )
+        }
     }
 
     @Test
     fun incorrectFieldNameTest() {
-        assertThrows<ParseException> { translateSelect("SELECT @name FROM collection") }
+        assertThrows<ParseException> {
+            translateSelect(
+                "SELECT @name FROM collection"
+            )
+        }
     }
 }
