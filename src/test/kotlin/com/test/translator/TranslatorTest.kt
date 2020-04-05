@@ -1,7 +1,5 @@
 package com.test.translator
 
-import com.test.translator.ParseException
-import com.test.translator.translateSelect
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -17,14 +15,16 @@ internal class TranslatorTest {
     fun translateSelectExample() {
         checkResult(
             "SELECT * FROM sales LIMIT 10",
-            "db.sales.find({}).limit(10)")
+            "db.sales.find({}).limit(10)"
+        )
     }
 
     @Test
     fun translateSelectColumnsExample() {
         checkResult(
             "SELECT name, surname FROM collection",
-            "db.collection.find({}, {name: 1, surname: 1})")
+            "db.collection.find({}, {name: 1, surname: 1})"
+        )
     }
 
     @Test
